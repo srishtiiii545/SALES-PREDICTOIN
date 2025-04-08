@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Prediction Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="scripts.js" defer></script>
+</head>
+<!--
+<body>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Sales Prediction Dashboard</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Analyze and predict sales using various outlet and product attributes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form action="/predict" method="POST">
+        <!-- Filters -->
+        <div class="row">
+            <!-- Item MRP Filter -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header filter-header">Item MRP</div>
+                    <div class="card-body">
+                        <input type="text" class="form-control" placeholder="Enter MRP">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outlet Type Filter -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header filter-header">Outlet Type</div>
+                    <div class="card-body">
+                        <select class="form-select">
+                            <option selected>Select Outlet Type</option>
+                            <option value="supermarket">Supermarket</option>
+                            <option value="grocery">Grocery Store</option>
+                            <option value="hypermarket">Hypermarket</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outlet Location Filter -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header filter-header">Outlet Location</div>
+                    <div class="card-body">
+                        <input type="text" class="form-control" placeholder="Enter Location">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outlet Size Filter -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header filter-header">Outlet Size</div>
+                    <div class="card-body">
+                        <select class="form-select">
+                            <option selected>Select Outlet Size</option>
+                            <option value="small">Small</option>
+                            <option value="medium">Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fat Content Filter -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header filter-header">Fat Content</div>
+                    <div class="card-body">
+                        <select class="form-select">
+                            <option selected>Select Fat Content</option>
+                            <option value="low">Low Fat</option>
+                            <option value="regular">Regular</option>
+                            <option value="high">High Fat</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Year Established Filter -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header filter-header">Year Established</div>
+                    <div class="card-body">
+                        <input type="text" class="form-control" placeholder="Enter Year">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row">
+            <div class="col-12 text-end">
+                <button class="btn btn-outline-secondary me-2">Reset Filters</button>
+                <button class="btn btn-primary"><input type="submit" placeholder="Apply Filters"></button>
+            </div>
+        </div>
+    </form>
+        <!-- Prediction Output Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Prediction Output</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="predictionResult" class="mb-3">
+                            <h5>Predicted Sales: <span id="predictedSales">{{ prediction }}</span></h5>
+                        </div>
+                        <div id="salesGraph" style="height: 400px;">
+                            <!-- Placeholder for the sales graph -->
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>console.log("from script file");
+        // Script to handle dashboard filter actions
+        document.addEventListener("DOMContentLoaded", function () {
+            // Reset filters button
+            const resetButton = document.querySelector(".btn-outline-secondary");
+            resetButton.addEventListener("click", function () {
+                // Reset all input fields
+                document.querySelectorAll("input").forEach((input) => {
+                    input.value = "";
+                });
+        
+                // Reset all select fields
+                document.querySelectorAll("select").forEach((select) => {
+                    select.selectedIndex = 0; // Reset to default
+                });
+        
+                alert("Filters have been reset.");
+            });
+        
+            // Apply filters button
+            const applyButton = document.querySelector(".btn-primary");
+            applyButton.addEventListener("click", function () {
+                // Gather filter values
+                const filters = {
+                    itemMrp: document.querySelector("input[placeholder='Enter MRP']").value,
+                    outletType: document.querySelector("select").value,
+                    outletLocation: document.querySelector("input[placeholder='Enter Location']").value,
+                    outletSize: document.querySelector("select").value,
+                    fatContent: document.querySelector("select").value,
+                    yearEstablished: document.querySelector("input[placeholder='Enter Year']").value,
+                };
+        
+                console.log("Filters applied:", filters);
+                alert("Filters applied! Check the console for details.");
+        
+                // Simulate prediction output
+                const predictedSales = Math.floor(Math.random() * 10000); // Random prediction for demonstration
+                document.getElementById("predictedSales").innerText = predictedSales;
+        
+                // Update the sales graph
+                updateSalesGraph(predictedSales);
+            });
+        });
+        
+        // Function to update the sales graph
+        function updateSalesGraph(predictedSales) {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            const salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Predicted Sales'],
+                    datasets: [{
+                        label: 'Sales Amount',
+                        data: [predictedSales],
+                        backgroundColor: '#5D8736',
+                        borderColor: '#4B6F2A',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+        }
+        </script>
+</body>
+
+</html>

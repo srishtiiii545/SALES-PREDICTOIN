@@ -1,0 +1,462 @@
+    <!-- <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sales Prediction Dashboard</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                background: linear-gradient(135deg, #1f4037, #99f2c8);
+                font-family: 'Poppins', sans-serif;
+            }
+            .container {
+                background: rgba(255, 255, 255, 0.9);
+                padding: 30px;
+                margin-top: 50px;
+                border-radius: 15px;
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            }
+            h2, h3 {
+                text-align: center;
+                color: #333;
+            }
+            .btn-primary {
+                background: #ff5733;
+                border: none;
+                font-size: 18px;
+            }
+            .btn-primary:hover {
+                background: #e64a19;
+            }
+            .form-control, .form-select {
+                border-radius: 10px;
+            }
+            .alert {
+                text-align: center;
+                font-size: 18px;
+            }
+            .logout-btn {
+                position: fixed;
+                right: 3px;
+                top: 3px;
+                padding: 10px 20px;
+                font-size: 16px;
+                color: white;
+                background-color: red;
+                text-decoration: none;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                
+            }
+
+            .logout-btn:hover {
+                background-color: darkred;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <a href="/logout" class="logout-btn">Logout</a>
+        <div class="container">
+            <h2>Sales Prediction Dashboard</h2>
+            <p class="text-center">Analyze and predict sales using various outlet and product attributes.</p>
+            
+            <form action="/predict" method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Item MRP:</label>
+                        <input type="text" class="form-control" name="item_mrp" placeholder="Enter MRP" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Item Type:</label>
+                        <select class="form-select" name="item_type" id="item_type" required>
+                            <option value="Select Option">Select Option</option>
+                            <option value="Dairy">Dairy</option>
+                            <option value="Soft Drinks">Soft Drinks</option>
+                            <option value="Meat">Meat</option>
+                            <option value="Fruits and Vegetables">Fruits and Vegetables</option>
+                            <option value="Household">Household</option>
+                            <option value="Baking Goods">Baking Goods</option>
+                            <option value="Snack Foods">Snack Foods</option>
+                            <option value="Frozen Foods">Frozen Foods</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Health and Hygiene">Health and Hygiene</option>
+                            <option value="Hard Drinks">Hard Drinks</option>
+                            <option value="Canned">Breakfast</option>
+                            <option value="Breads">Breads</option>
+                            <option value="Starchy Foods">Starchy Foods</option>
+                            <option value="Others">Others</option>
+                            <option value="Seafood">Seafood</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Product:</label>
+                        <select class="form-select" name="product_name" id="product_name" disabled required>
+                            <option value="" selected disabled>Select Product</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Outlet Type:</label>
+                        <select class="form-select" name="outlet_type" required>
+                            <option value="Select Option">Select Option</option>
+                            <option value="Grocery Store">Grocery Store</option>
+                            <option value="Supermarket type 1">Supermarket type 1</option>
+                            <option value="Supermarket type 2">Supermarket type 2</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Outlet Location:</label>
+                        <select class="form-select" name="outlet_location" required>
+                            <option value="Select Option">Select Option</option>
+                            <option value="metropolitan Cities">metropolitan Cities</option>
+                            <option value="Secondary Cities or Emerging Urban Cities">Secondary Cities or Emerging Urban Cities</option>
+                            <option value="Developing Urban Cities">Developing Urban Cities</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label>Outlet Size:</label>
+                        <select class="form-select" name="outlet_size" required>
+                            <option value="Select Option">Select Option</option>
+                            <option value="Small">small</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Large">Large</option>
+                        </select>
+                    </div>
+                    <!-- <div class="col-md-4 mt-3">
+                        <label>Fat Content: (0 for Low fat and 1 for Regular)</label>
+                        <select class="form-select" name="fat_content" required>
+                            <option value="Low Fat">0</option>
+                            <option value="Regular">1</option>
+                        </select>
+                    </div> 
+                    <div class="col-md-4 mt-3">
+                        <label>Year Established:</label>
+                        <input type="number" class="form-control" name="year_established" placeholder="Enter Year" required>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mt-4">Predict Sales</button>
+                </div>
+            </form>
+
+            <h3 class="mt-4">Prediction Output:</h3>
+            {% if prediction %}
+                <div class="alert alert-success">{{ prediction }}</div>
+            {% endif %}
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Define products for each item type
+                const productsByType = {
+                    "Dairy": ["Milk", "Cheese", "Yogurt", "Butter", "Cream"],
+                    "Soft Drinks": ["Coca-Cola", "Pepsi", "Sprite", "Fanta", "Mountain Dew"],
+                    "Meat": ["Chicken", "Beef", "Pork", "Lamb", "Fish"],
+                    "Fruits and Vegetables": ["Apple", "Banana", "Carrot", "Potato", "Tomato"],
+                    "Household": ["Detergent", "Tissue", "Toothpaste", "Soap", "Shampoo"],
+                    "Baking Goods": ["Flour", "Sugar", "Baking Powder", "Yeast", "Cocoa Powder"],
+                    "Snack Foods": ["Chips", "Chocolate", "Cookies", "Popcorn", "Nuts"],
+                    "Frozen Foods": ["Frozen Pizza", "Ice Cream", "Frozen Vegetables", "Frozen Meat", "Frozen Fish"],
+                    "Breakfast": ["Cereal", "Oats", "Pancake Mix", "Granola", "Bread"],
+                    "Health and Hygiene": ["Hand Sanitizer", "Face Mask", "First Aid Kit", "Mouthwash", "Hand Wash"],
+                    "Hard Drinks": ["Whiskey", "Vodka", "Beer", "Wine", "Rum"],
+                    "Canned": ["Canned Beans", "Canned Corn", "Canned Soup", "Canned Fish", "Canned Tomatoes"],
+                    "Breads": ["White Bread", "Whole Wheat Bread", "Multigrain Bread", "Baguette", "Brioche"],
+                    "Starchy Foods": ["Rice", "Pasta", "Potatoes", "Corn", "Sweet Potato"],
+                    "Others": ["Tea", "Coffee", "Honey", "Jam", "Peanut Butter"],
+                    "Seafood": ["Salmon", "Shrimp", "Crab", "Tuna", "Oysters"]
+                };
+
+                const itemTypeDropdown = document.getElementById("item_type");
+                const productDropdown = document.getElementById("product_name");
+
+                // Listen for changes on the Item Type dropdown
+                itemTypeDropdown.addEventListener("change", function () {
+                    const selectedType = itemTypeDropdown.value;
+                    
+                    // Clear previous options
+                    productDropdown.innerHTML = '<option value="" selected disabled>Select Product</option>';
+
+                    if (selectedType in productsByType) {
+                        // Enable dropdown
+                        productDropdown.disabled = false;
+
+                        // Add products for the selected item type
+                        productsByType[selectedType].forEach(product => {
+                            let option = document.createElement("option");
+                            option.value = product;
+                            option.textContent = product;
+                            productDropdown.appendChild(option);
+                        });
+                    } else {
+                        productDropdown.disabled = true;
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html> -->
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sales Prediction/random_n</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="homie.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="scripts.js" defer></script>
+        <script src="SalesBot.js" defer></script>
+        <div id="sales-bot-root"></div>
+        <script type="text/babel" src="SalesBot.js"></script>
+        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+        <!-- Babel is required for JSX transformation -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!-- Mount the React chatbot -->
+        <style>
+            body {
+                background: linear-gradient(135deg, #0f2027 , #203a43,  #2c5364);
+                font-family: 'Poppins', sans-serif;
+            }
+            .form-box {
+                background:  rgba(255, 255, 255, 0.153);
+                backdrop-filter: blur(30px);
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                max-width: 1200px;
+                margin: 50px auto;
+            }
+            h2 {
+                text-align: center;
+                color: white;
+                margin-bottom : 10px;
+            }
+            .btn-primary {
+                width: 100%;
+                background: #ff5733;
+                border: none;
+                font-weight: bold;
+            }
+            .btn-primary:hover {
+                background: #e64a19;
+            }
+        
+            .form-control, .form-select 
+            {
+                border-radius: 10px;
+                margin-top: 10px; /* Adds space above each input field */
+                margin-bottom: 10px; /* Adds space below each input field */
+                padding: 10px; /* Increases internal spacing */
+                width: 100%; /* Ensures all fields take full width inside their container */
+            }
+        .form-row 
+        {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 15px; /* Adds spacing between fields */
+            }
+
+            .form-group 
+            {
+                flex: 1; /* Ensures equal width for all fields */
+                min-width: 200px; /* Prevents fields from shrinking too much */
+                margin-bottom: 100px; /* Adds space between each form group */
+            }
+            .form-control
+            {
+                border: none;
+                color: white;
+            }
+            label 
+            {
+                color: white;
+            }
+            .alert 
+            {
+                text-align: center;
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#" style="margin-left: -100px;" style="margin-right: 20px;">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="80" height="80" class="me-1">
+                <span class="fs-3 fw-bold">BIG MART SALES PREDICTION</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav" style="gap: 5px;">
+                    <li class="nav-item">
+                        <a class="nav-link" style="font-size: 18px; padding: 5px 5px;" href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="/">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="#contact">CONTACT</a></li>
+                    <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="/logout">LOGOUT</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <hr style="border: 2px solid white; margin: 0; opacity: 0.5;">
+    </header>
+    <body>
+
+        <div class="container">
+            <div class="form-box">
+                <h2>Sales Prediction Dashboard</h2>
+                <p class="text-center" style="color: white">Analyze and predict sales using various outlet and product attributes.</p>
+                <form action="/predict" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Item MRP:</label>
+                            <input type="text" class="form-control" name="item_mrp" placeholder="Enter MRP" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Item Type:</label>
+                            <select class="form-select" name="item_type" id="item_type" required>
+                                <option value="">Select Option</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Soft Drinks">Soft Drinks</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Fruits and Vegetables">Fruits and Vegetables</option>
+                                <option value="Household">Household</option>
+                                <option value="Baking Goods">Baking Goods</option>
+                                <option value="Snack Foods">Snack Foods</option>
+                                <option value="Frozen Foods">Frozen Foods</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Health and Hygiene">Health and Hygiene</option>
+                                <option value="Hard Drinks">Hard Drinks</option>
+                                <option value="Canned">Breakfast</option>
+                                <option value="Breads">Breads</option>
+                                <option value="Starchy Foods">Starchy Foods</option>
+                                <option value="Others">Others</option>
+                                <option value="Seafood">Seafood</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Product:</label>
+                            <select class="form-select" name="product_name" id="product_name" disabled required>
+                                <option value="" selected disabled>Select Product</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Outlet Type:</label>
+                            <select class="form-select" name="outlet_type" required>
+                                <option value="">Select Option</option>
+                                <option value="Grocery Store">Grocery Store</option>
+                                <option value="Supermarket type 1">Supermarket type 1</option>
+                                <option value="Supermarket type 2">Supermarket type 2</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Outlet Location:</label>
+                            <select class="form-select" name="outlet_location" required>
+                                <option value="">Select Option</option>
+                                <option value="metropolitan Cities">Metropolitan Cities</option>
+                                <option value="Secondary Cities or Emerging Urban Cities">Secondary Cities or Emerging Urban Cities</option>
+                                <option value="Developing Urban Cities">Developing Urban Cities</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Outlet Size:</label>
+                            <select class="form-select" name="outlet_size" required>
+                                <option value="">Select Option</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Year Established:</label>
+                            <input type="number" class="form-control" name="year_established" placeholder="Enter Year" required>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary mt-4" >Predict Sales</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer id="contact">
+            <p>&copy; 2025 Big Mart Sales Prediction. All rights reserved.</p>
+            <p>Contact us: supportbigmartsales@gmail.com | +91 9876543210</p>
+            <p>Follow us on:
+            <a href="#">Twitter</a> |
+            <a href="#">LinkedIn</a> |
+            <a href="#">Facebook</a>
+            </p>
+        </footer>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Define products for each item type
+                const productsByType = {
+                    "Dairy": ["Milk", "Cheese", "Yogurt", "Butter", "Cream"],
+                    "Soft Drinks": ["Coca-Cola", "Pepsi", "Sprite", "Fanta", "Mountain Dew"],
+                    "Meat": ["Chicken", "Beef", "Pork", "Lamb", "Fish"],
+                    "Fruits and Vegetables": ["Apple", "Banana", "Carrot", "Potato", "Tomato"],
+                    "Household": ["Detergent", "Tissue", "Toothpaste", "Soap", "Shampoo"],
+                    "Baking Goods": ["Flour", "Sugar", "Baking Powder", "Yeast", "Cocoa Powder"],
+                    "Snack Foods": ["Chips", "Chocolate", "Cookies", "Popcorn", "Nuts"],
+                    "Frozen Foods": ["Frozen Pizza", "Ice Cream", "Frozen Vegetables", "Frozen Meat", "Frozen Fish"],
+                    "Breakfast": ["Cereal", "Oats", "Pancake Mix", "Granola", "Bread"],
+                    "Health and Hygiene": ["Hand Sanitizer", "Face Mask", "First Aid Kit", "Mouthwash", "Hand Wash"],
+                    "Hard Drinks": ["Whiskey", "Vodka", "Beer", "Wine", "Rum"],
+                    "Canned": ["Canned Beans", "Canned Corn", "Canned Soup", "Canned Fish", "Canned Tomatoes"],
+                    "Breads": ["White Bread", "Whole Wheat Bread", "Multigrain Bread", "Baguette", "Brioche"],
+                    "Starchy Foods": ["Rice", "Pasta", "Potatoes", "Corn", "Sweet Potato"],
+                    "Others": ["Tea", "Coffee", "Honey", "Jam", "Peanut Butter"],
+                    "Seafood": ["Salmon", "Shrimp", "Crab", "Tuna", "Oysters"]
+                };
+    
+                const itemTypeDropdown = document.getElementById("item_type");
+                const productDropdown = document.getElementById("product_name");
+    
+                // Listen for changes on the Item Type dropdown
+                itemTypeDropdown.addEventListener("change", function () {
+                    const selectedType = itemTypeDropdown.value;
+                    
+                    // Clear previous options
+                    productDropdown.innerHTML = '<option value="" selected disabled>Select Product</option>';
+    
+                    if (selectedType in productsByType) {
+                        // Enable dropdown
+                        productDropdown.disabled = false;
+    
+                        // Add products for the selected item type
+                        productsByType[selectedType].forEach(product => {
+                            let option = document.createElement("option");
+                            option.value = product;
+                            option.textContent = product;
+                            productDropdown.appendChild(option);
+                        });
+                    } else {
+                        productDropdown.disabled = true;
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html>
+    

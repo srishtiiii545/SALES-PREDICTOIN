@@ -1,0 +1,166 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Prediction Tool-home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='homie1.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="scripts.js" defer></script>
+    <style>
+        .logo {
+    width: 100px;
+    height: 100px;
+    margin-right:0px;
+    margin-left:0px;
+    background-color: transparent; /* Ensures no background */
+}
+
+    </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+      <div class="container">
+          <a class="navbar-brand d-flex align-items-center" href="#" style="margin-left: -100px;" style="margin-right: 20px;">
+              <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="80" height="80" class="me-1">
+              <span class="fs-3 fw-bold">BIG MART SALES PREDICTION</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav" style="gap: 5px;">
+                <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="javascript:history.back()">BACK</a></li>
+                <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="homie.html">HOME</a></li>
+                <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="#contact">CONTACT</a></li>
+                <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="/signin">SIGN IN</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<hr style="border: 2px solid white; margin: 0; opacity: 0.5;">
+</header>
+<main>
+    <div class="signin-form">
+      <h2>Sign Up</h2>
+      
+        <form id="signInForm" method="post" action="/signup">
+          <input type="text" placeholder="Enter Name" name="name" required />
+          <input type="email" placeholder=" Create Email" name="email" required />
+          <input type="password" placeholder="Create Password" name="pass" required />
+          <button type="submit">Sign Up</button>
+        </form>
+  
+    </div>
+  </main>
+
+  Footer --
+  <footer id="contact">
+    <p>&copy; 2025 Big Mart Sales Prediction. All rights reserved.</p>
+    <p>Contact us: supportbigmartsales@gmail.com | +91 9876543210</p>
+    <p>Follow us on:
+      <a href="#">Twitter</a> |
+      <a href="#">LinkedIn</a> |
+      <a href="#">Facebook</a>
+    </p>
+</footer>
+
+</body>
+
+</html> -->
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Prediction Tool-home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='homie1.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="scripts.js" defer></script>
+    <style>
+        .logo {
+    width: 100px;
+    height: 100px;
+    margin-right:0px;
+    margin-left:0px;
+    background-color: transparent; /* Ensures no background */
+}
+.signin-form a {
+    display: block; /* Places the link on a new line */
+    margin-top: 10px; /* Creates space between button and link */
+    color: white; /* Ensures visibility on a blue background */
+    text-decoration: underline; /* Highlights the link */
+    font-weight: bold; /* Makes it noticeable */
+}
+
+.signin-form a:hover {
+    color: lightgray; /* Enhances hover effect */
+}
+
+    </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+      <div class="container">
+          <a class="navbar-brand d-flex align-items-center" href="#" style="margin-left: -100px;" style="margin-right: 20px;">
+              <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="80" height="80" class="me-1">
+              <span class="fs-3 fw-bold">BIG MART SALES PREDICTION</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav" style="gap: 5px;">
+              <li class="nav-item">
+                <a class="nav-link" style="font-size: 18px; padding: 5px 5px;" href="javascript:history.back()">
+                  <i class="fas fa-arrow-left"></i>
+                </a>
+              </li><li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="/homie">HOME</a></li>
+                <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="#contact">CONTACT</a></li>
+                <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="/signin">SIGN IN</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="/logout">LOGOUT</a></li> -->
+              </ul>
+        </div>
+    </div>
+</nav>
+<hr style="border: 2px solid white; margin: 0; opacity: 0.5;">
+</header>
+<main>
+    <div class="signin-form">
+      <h2>Sign Up</h2>
+      
+        <form id="signInForm" method="post" action="/signup">
+          <input type="text" placeholder=" Enter Name" name="name" required />
+          <input type="email" placeholder=" Enter Email" name="email" required />
+          <input type="password" placeholder="Create Password" name="pass" required />
+          <button type="submit">Sign Up</button>
+        </form>
+        <p class="signin-link">Already have an account?<a href="/signin">Sign In</a></p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <p>&copy; 2025 Big Mart Sales Prediction. All rights reserved.</p>
+    <p>Contact us: supportbigmartsales@gmail.com | +91 9876543210</p>
+    <p>Follow us on:
+      <a href="#">Twitter</a> |
+      <a href="#">LinkedIn</a> |
+      <a href="#">Facebook</a>
+    </p>
+</footer>
+
+</body>
+
+</html>

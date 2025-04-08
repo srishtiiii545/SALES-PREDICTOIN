@@ -1,0 +1,341 @@
+<!-- <!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Prediction - Graph</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+        background-color: #224554;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 10px 20px;
+    }
+
+    .navbar-brand {
+        font-size: 22px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    /* Divider */
+    .divider {
+        border: 2px solid white;
+        margin: 0;
+        opacity: 0.5;
+    }
+
+    /* Chart Container */
+    .chart-container {
+        width: 80%;
+        margin: 30px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        background-color: black;
+        color: white;
+        padding: 10px;
+        width: 100%;
+    }
+  </style>
+</head>
+<body>
+    <!-- Navbar --
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+          <div class="container">
+              <a class="navbar-brand d-flex align-items-center" href="#" style="margin-left: -100px;" style="margin-right: 20px;">
+                  <img src="logo.png" alt="Logo" width="80" height="80" class="me-1">
+                  <span class="fs-3 fw-bold">BIG MART SALES PREDICTION</span>
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav" style="gap: 5px;">
+                    <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="homie.html">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" style="font-size: 14px; padding: 5px 5px;" href="#contact">CONTACT</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <hr style="border: 2px solid white; margin: 0; opacity: 0.5;">
+    
+    </header>
+    <!-- Graphs --
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Footer --
+    <footer id="contact">
+        <p>&copy; 2025 Big Mart Sales Prediction. All rights reserved.</p>
+        <p>Contact us: supportbigmartsales@gmail.com | +91 9876543210</p>
+    </footer>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Line Chart
+        const lineCtx = document.getElementById("lineChart").getContext("2d");
+        new Chart(lineCtx, {
+            type: "line",
+            data: {
+                labels: ["Item_MRP", "Item Type", "Product", "Outlet Type", "Outlet Location", "Outlet Size", "Year Established"],
+                datasets: [{
+                    label: "Sales",
+                    data: [100, 120, 90, 150, 130],
+                    backgroundColor: "rgba(0, 128, 0, 0.2)",
+                    borderColor: "green",
+                    borderWidth: 2,
+                    pointRadius: 5,
+                    pointBackgroundColor: "green"
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: { size: 14 },  // Increase font size
+                            maxRotation: 45,   // Rotate labels for better visibility
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Bar Chart
+        const barCtx = document.getElementById("barChart").getContext("2d");
+        new Chart(barCtx, {
+            type: "bar",
+            data: {
+                labels: ["January", "February", "March", "April", "May"],
+                datasets: [
+                    {
+                        label: "Profit",
+                        data: [100, 120, 90, 150, 130],
+                        backgroundColor: "green"
+                    },
+                    {
+                        label: "Loss",
+                        data: [40, 50, 70, 30, 60],
+                        backgroundColor: "red"
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: { size: 14 },  // Increase font size
+                            maxRotation: 45,   // Rotate labels for better visibility
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+    </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Prediction - Graph</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+        background-color: #224554;
+        margin: 0;
+        padding: 0;
+    }
+
+    .chart-container {
+        width: 90%;  /* Made it larger */
+        max-width: 800px;
+        height: 400px;  /* Increased height */
+        margin: 30px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .info-box {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info-box">
+            <p>📈 Predicted Sales: ₹{{ predicted_sales }}<span id="predictedSales"></span></p>
+            <p>💰 Profit: ₹{{ profit }}<span id="profit"></span></p>
+            <p>📉 Loss: ₹{{ loss }}<span id="loss"></span></p>
+        </div>
+
+
+        <div class="chart-container">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+    // async function fetchData() {
+    //     try {
+    //         const response = await fetch('/predict');  // Fetch from Flask
+    //         const data = await response.json();
+
+    //         const labels = ["Item MRP", "Item Type", "Outlet Type", "Outlet Location", "Outlet Size", "Year Established"];
+    //         const salesData = data.sales;
+    //         const profitData = data.profit;
+    //         const lossData = data.loss;
+
+    //         // Line Chart (Sales)
+    //         const lineCtx = document.getElementById("lineChart").getContext("2d");
+    //         new Chart(lineCtx, {
+    //             type: "line",
+    //             data: {
+    //                 labels: labels,
+    //                 datasets: [{
+    //                     label: "Predicted Sales",
+    //                     data: salesData,
+    //                     backgroundColor: "rgba(0, 128, 0, 0.2)",
+    //                     borderColor: "green",
+    //                     borderWidth: 2,
+    //                     pointRadius: 5,
+    //                     pointBackgroundColor: "green"
+    //                 }]
+    //             }
+    //         });
+
+    //         // Bar Chart (Profit vs Loss)
+    //         const barCtx = document.getElementById("barChart").getContext("2d");
+    //         new Chart(barCtx, {
+    //             type: "bar",
+    //             data: {
+    //                 labels: labels,
+    //                 datasets: [
+    //                     {
+    //                         label: "Profit",
+    //                         data: profitData,
+    //                         backgroundColor: "green"
+    //                     },
+    //                     {
+    //                         label: "Loss",
+    //                         data: lossData,
+    //                         backgroundColor: "red"
+    //                     }
+    //                 ]
+    //             }
+    //         });
+
+    //     } catch (error) {
+    //         console.error("Error fetching data:", error);
+    //     }
+    // }
+
+    
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        // const response =  await fetch("/get_data");  // Fetch data from Flask
+        // fetch("/get_data").then(response => response.json())  // Ensure response is JSON
+        //     .then(data => console.log(data))    
+        // const data = await response.json;
+        const cleanAndConvert = str => Number(str.replace(/[^0-9.-]+/g, ""));
+        data = {
+        labels: ["Sales", "Profit", "Loss"],
+        values: [cleanAndConvert('{{ predicted_sales }}'), cleanAndConvert('{{ profit }}'), cleanAndConvert('{{ loss }}')]
+        // values: [5000, 1000, 400]
+        }
+        console.log(data.values)
+
+        // Ensure we received data
+        if (!data || !data.labels || !data.values) {
+            throw new Error("Invalid data format received.");
+        }
+        
+        // const maxValue = Math.max(data.values);
+        // console.log(maxValue)
+        // const suggestedMax = maxValue + maxValue; // Add 10% buffer
+        // console.log(suggestedMax)
+        // Bar Chart (for single data point)
+        const barCtx = document.getElementById("barChart").getContext("2d");
+        new Chart(barCtx, {
+            type: "bar",
+            data: {
+                labels: data.labels,  // ["Sales", "Profit", "Loss"]
+                datasets: [{
+                    label: "Amount (₹)",
+                    data: data.values,  // [5000, 1000, 500]
+                    backgroundColor: ["green", "blue", "red"]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        // suggestedMax: suggestedMax // Dynamically set max value
+                    }
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        alert("Error fetching data");
+    }
+});
+
+
+
+    // fetchData();  // Call function on page load
+    </script>
+
+</body>
+</html> 

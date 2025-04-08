@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Assistant Chatbot</title>
+    <style>
+        /* body { font-family: Arial, sans-serif; }
+        #chatbox { width: 100%; height: 300px; border: 1px solid #ccc; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
+        .user-message { text-align: right; font-weight: bold; }
+        .bot-message { text-align: left; color: #007bff; }
+        #user-input { width: 80%; padding: 10px; }
+        button { padding: 10px; } */
+
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Chatbot Container */
+        #chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        /* Chatbot Header */
+        #chatbot-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        /* Close Button */
+        #chatbot-close {
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Chat Messages */
+        #chatbot-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            max-height: 350px;
+        }
+
+        /* Chat Input */
+        #chatbot-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        #chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+
+        #chatbot-input button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Chatbot Toggle Button */
+        #chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        #chatbot-toggle img {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* User and Bot Messages */
+        .user-message {
+            text-align: right;
+            font-weight: bold;
+            color: black;
+            background: #d1ecf1;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            max-width: 80%;
+            display: inline-block;
+        }
+
+        .bot-message {
+            text-align: left;
+            color: white;
+            background: #007bff;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            max-width: 80%;
+            display: inline-block;
+        }
+    </style>
+    </style>
+</head>
+<body>
+      <!-- Chatbot Toggle Button -->
+    <div id="chatbot-toggle" onclick="toggleChatbot()">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Chatbot">
+    </div>
+
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Virtual Assistant
+            <span id="chatbot-close" onclick="toggleChatbot()">&times;</span>
+        </div>
+        <div id="chatbot-messages">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div id="chatbot-input">
+            <input type="text" id="user-input" placeholder="Type a message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+         function toggleChatbot() {
+            const chatbot = document.getElementById("chatbot-container");
+            chatbot.style.display = chatbot.style.display === "none" || chatbot.style.display === "" ? "flex" : "none";
+        }
+
+
+        async function sendMessage() {
+            const userMessage = document.getElementById('user-input').value;
+            if (userMessage.trim()) {
+                // Display the user's message in the chatbox
+                const chatbox = document.getElementById('chatbot-messages');
+                chatbox.innerHTML += "<p class='user-message'>" + userMessage + "</p>";
+                document.getElementById('user-input').value = "";
+
+                // Send the user message to the Flask backend
+                const response = await fetch('/get_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "user_input=" + encodeURIComponent(userMessage)
+                });
+
+                const data = await response.json();
+                const botMessage = data.response;
+
+                // Display the bot's response in the chatbox
+                chatbox.innerHTML += "<p class='bot-message'>" + botMessage + "</p>";
+
+                // Scroll the chatbox to the bottom
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
